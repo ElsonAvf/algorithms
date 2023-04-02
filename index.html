@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+  <script>
+    function sort(firstArray, secondArray) {
+      let firstIndex = 0;
+      let secondIndex = 0;
+      let sortedArray = [];
+      while (true) {
+        if (firstIndex === firstArray.length) {
+          sortedArray = sortedArray.concat(secondArray.slice(secondIndex, secondArray.length))
+          break;
+        } else if (secondIndex === secondArray.length) {
+          sortedArray = sortedArray.concat(firstArray.slice(firstIndex, firstArray.length))
+          break
+        } else {
+          if (firstArray[firstIndex] < secondArray[secondIndex]) {
+            sortedArray.push(firstArray[firstIndex])
+            firstIndex++
+          } else {
+            sortedArray.push(secondArray[secondIndex])
+            secondIndex++
+          }
+        }
+      }
+      return sortedArray
+    }
+  
+    function mergeSort(array) {
+      if (array.length < 2) {
+        return array
+      }
+      const array1 = array.slice(0, Math.floor(array.length / 2))
+      const array2 = array.slice(Math.floor(array.length / 2), array.length)
+      return sort(mergeSort(array1), mergeSort(array2))
+    }
+    let array = [];
+    while (array.length < 1000) {
+      const item = Math.floor(Math.random() * 2000)
+      if (array.indexOf(item) === -1) {
+        array.push(item)
+      }
+    }
+    console.log('Array: ', array)
+    console.time('merge')
+    console.log(mergeSort(array))
+    console.timeEnd('merge')
+    
+    function selectionSort(array) {
+      let orderedArray = [...array]
+      for (let i = 0; i < orderedArray.length; i++) {
+        let smaller = orderedArray[i]
+        for (let j = i; j < orderedArray.length; j++) {
+          if (orderedArray[j] < smaller) {
+            let previous = orderedArray[j]
+            orderedArray[j] = smaller
+            orderedArray[i] = previous
+            smaller = previous;
+          }
+        }
+      }
+      return orderedArray
+    }
+    console.time('selection')
+    console.log(selectionSort(array))
+    console.timeEnd('selection')
+  </script>
+</body>
+</html>
